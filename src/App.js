@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {ZipCodeEntry} from "./ZipCodeEntry";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+    state = {
+        zipcodes: []
+    }
+
+    addZip = (zipcode) => {
+        console.log('Adding zipcode', zipcode);
+        this.setState(previousState => {
+            return {zipcodes: [...previousState.zipcodes, zipcode]}
+        });
+    }
+
+    render() {
+        return (
+            <div className="container-fluid">
+                <ZipCodeEntry onZipAdded={this.addZip}/>
+                <ul>
+                    {this.state.zipcodes.map(zip => <li>{zip}</li>) }
+                </ul>
+            </div>
+
+        );
+    }
+
 }
 
 export default App;
