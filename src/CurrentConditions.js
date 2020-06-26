@@ -3,7 +3,7 @@ import React from 'react';
 export class CurrentConditions extends React.Component {
 
     render() {
-        const {zipcode} = this.props;
+        const {zipcode, onClose} = this.props;
         return (
             <div className="well flex">
                 <div>
@@ -20,7 +20,7 @@ export class CurrentConditions extends React.Component {
                     </p>
                 </div>
                 <div>
-                    <span className="close">×</span>
+                    <span className="close" onClick={onClose}>×</span>
                     <img src="https://www.angulartraining.com/images/weather/sun.png" />
                 </div>
             </div>

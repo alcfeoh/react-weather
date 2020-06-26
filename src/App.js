@@ -16,12 +16,20 @@ class App extends React.Component {
         });
     }
 
+    removeZip = (zipcode) => {
+        console.log('Removing zipcode', zipcode);
+        this.setState(previousState => {
+            return {zipcodes: previousState.zipcodes.filter(zip => zip !== zipcode)}
+        });
+    }
+
     render() {
         return (
             <div className="container-fluid">
                 <ZipCodeEntry onZipAdded={this.addZip}/>
                 <div>
-                    {this.state.zipcodes.map(zip =>  <CurrentConditions zipcode={zip} /> )}
+                    {this.state.zipcodes.map(zip =>
+                        <CurrentConditions zipcode={zip} onClose={() => this.removeZip(zip)} /> )}
                 </div>
             </div>
 
