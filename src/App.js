@@ -2,40 +2,35 @@ import React from 'react';
 import './App.css';
 import {ZipCodeEntry} from "./ZipCodeEntry";
 import {CurrentConditions} from "./CurrentConditions";
+import {ADD_ZIPCODE, REMOVE_ZIPCODE} from "./state";
+import {connect} from "react-redux";
+
+function mapStateToProps(state) {
+    return {
+        zipcodes: state.zipcodes
+    };
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+    return {
+        addZip: (zip) => dispatch({type: ADD_ZIPCODE, zipcode: zip}),
+        removeZip: (zip) => dispatch({type: REMOVE_ZIPCODE, zipcode: zip})
+    };
+}
 
 class App extends React.Component {
 
-    state = {
-        zipcodes: []
-    }
-
-    addZip = (zipcode) => {
-        console.log('Adding zipcode', zipcode);
-        this.setState(previousState => {
-            return {zipcodes: [...previousState.zipcodes, zipcode]}
-        });
-    }
-
-    removeZip = (zipcode) => {
-        console.log('Removing zipcode', zipcode);
-        this.setState(previousState => {
-            return {zipcodes: previousState.zipcodes.filter(zip => zip !== zipcode)}
-        });
-    }
-
     render() {
         return (
-            <div className="container-fluid">
-                <ZipCodeEntry onZipAdded={this.addZip}/>
-                <div>
-                    {this.state.zipcodes.map(zip =>
-                        <CurrentConditions zipcode={zip} onClose={() => this.removeZip(zip)} /> )}
+                <div className="container-fluid">
+                    <ZipCodeEntry onZipAdded={this.props.addZip}/>
+                    <div>
+                        {this.props.zipcodes.map(zip =>
+                            <CurrentConditions zipcode={zip} onClose={() => this.props.removeZip(zip)} /> )}
+                    </div>
                 </div>
-            </div>
-
         );
     }
-
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
